@@ -10,7 +10,7 @@ export default function Location() {
   useEffect(() => {
     fetch(import.meta.env.VITE_URL, {
       headers: {
-        Authorization: "Bearer " + import.meta.env.VITE_TOKEN,
+        Authorization: "Bearer " + import.meta.env.VITE_TOKEN_TRACKER,
         "Content-Type": "application/json",
       },
     })
@@ -21,6 +21,7 @@ export default function Location() {
           zoom: 10,
         });
         setLocation(data);
+        console.log(location);
       })
       .catch((error) => {
         setError(error);
