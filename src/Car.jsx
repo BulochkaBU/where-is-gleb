@@ -1,4 +1,4 @@
-function Car() {
+export default function Car() {
   return (
     <svg
       className="car"
@@ -95,5 +95,3 @@ function Car() {
     </svg>
   );
 }
-
-export default Car;
