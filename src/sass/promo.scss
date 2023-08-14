@@ -4,11 +4,12 @@
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
+  padding: 0.5rem;
 }
 
 .title {
   text-align: center;
-  font-size: 5rem;
+  font-size: 4.5rem;
   font-weight: normal;
   margin: 0 auto;
 }
@@ -16,5 +17,17 @@
 .subtitle {
   text-align: center;
   color: grey;
-  margin-top: 5rem;
+  margin-top: 4rem;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  line-height: 2rem;
+}
+
+.percentage {
+  text-align: center;
+  font-size: 2rem;
 }

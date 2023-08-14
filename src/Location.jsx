@@ -18,14 +18,14 @@ export default function Location() {
   );
   const { data, isLoading: isLoadingCurrentLocation } =
     useGetCurrentLocationQuery();
-  const [currentId, setCurrentId] = useState(3270);
+  const [currentId, setCurrentId] = useState(5160);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
     isSuccess,
     isLoadingLocationById,
   } = useGetLocationByIdQuery({
-    id: arrayIds[currentIndex] || 3200,
+    id: arrayIds[currentIndex] || 4900,
   });
 
   const dispatch = useDispatch();
@@ -40,14 +40,14 @@ export default function Location() {
       dispatch(addArrayIds(currentId));
     }
 
-    if (data && currentId !== 99) {
+    if (data && currentId !== 1000) {
       const timeoutId = setTimeout(() => {
         setCurrentId((prev) => prev - 1);
       }, 1);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [data, currentId, dispatch]);
+  }, [data, currentId]);
 
   useEffect(() => {
     if (dataById) {
@@ -55,49 +55,47 @@ export default function Location() {
       if (arrayIds && currentIndex < arrayIds.length - 1 && isSuccess) {
         setCurrentIndex((prev) => prev + 1);
       }
-      if (currentId === 99) {
+      if (currentId === 1000) {
         setShowLoading(false);
       }
     }
-  }, [dataById, currentIndex, arrayIds, dispatch, isSuccess]);
+  }, [dataById, currentIndex, arrayIds]);
 
   if (showLoading || isLoadingCurrentLocation || isLoadingLocationById) {
     return <Loading />;
   }
 
   return (
-    <>
-      <YMaps>
-        <Map
-          defaultState={{
-            center: currentLocation[0],
-            zoom: 10,
+    <YMaps>
+      <Map
+        defaultState={{
+          center: currentLocation[0],
+          zoom: 10,
+        }}
+        width="100%"
+        height="100vh"
+      >
+        <Placemark
+          geometry={currentLocation[0]}
+          options={{
+            iconLayout: "default#image",
+            iconImageHref: "./icon.png",
+            iconImageSize: [70, 70],
+            iconImageOffset: [-15, -42],
           }}
-          width="100%"
-          height="80vh"
-        >
-          <Placemark
-            geometry={currentLocation[0]}
-            options={{
-              iconLayout: "default#image",
-              iconImageHref: "./car.svg",
-              iconImageSize: [70, 70],
-              iconImageOffset: [-15, -42],
-            }}
-          />
-          <GeoObject
-            geometry={{
-              type: "LineString",
-              coordinates: allLocations,
-            }}
-            options={{
-              geodesic: true,
-              strokeWidth: 5,
-              strokeColor: "#F008",
-            }}
-          />
-        </Map>
-      </YMaps>
-    </>
+        />
+        <GeoObject
+          geometry={{
+            type: "LineString",
+            coordinates: allLocations,
+          }}
+          options={{
+            geodesic: true,
+            strokeWidth: 5,
+            strokeColor: "#F008",
+          }}
+        />
+      </Map>
+    </YMaps>
   );
 }
