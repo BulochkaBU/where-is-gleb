@@ -4,6 +4,7 @@ const initialState = {
   allLocations: [],
   currentLocation: [],
   arrayIds: [],
+  currentId: 0,
 };
 const locationSlice = createSlice({
   name: "location",
@@ -11,28 +12,16 @@ const locationSlice = createSlice({
   reducers: {
     addLocation(state, action) {
       if (state.allLocations.length === 0) {
-        state.allLocations.push([
-          action.payload.latitude,
-          action.payload.longitude,
-        ]);
+        state.allLocations.push([action.payload.latitude, action.payload.longitude]);
       }
-      if (
-        state.allLocations.every(
-          (location) => location.id !== action.payload.id
-        )
-      ) {
-        state.allLocations.push([
-          action.payload.latitude,
-          action.payload.longitude,
-        ]);
+      if (state.allLocations.every((location) => location.id !== action.payload.id)) {
+        state.allLocations.push([action.payload.latitude, action.payload.longitude]);
       }
     },
     addCurrentLocation(state, action) {
       if (state.currentLocation.length === 0) {
-        state.currentLocation.push([
-          action.payload.latitude,
-          action.payload.longitude,
-        ]);
+        state.currentLocation.push([action.payload.latitude, action.payload.longitude]);
+        state.currentId = action.payload.id;
       }
     },
     addArrayIds(state, action) {
@@ -46,6 +35,5 @@ const locationSlice = createSlice({
   },
 });
 
-export const { addLocation, addCurrentLocation, addArrayIds } =
-  locationSlice.actions;
+export const { addLocation, addCurrentLocation, addArrayIds } = locationSlice.actions;
 export default locationSlice.reducer;

@@ -76,21 +76,9 @@ export default function Car() {
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path
-          className="car__line car__line--top"
-          d="M33.75 25.5H4.7105"
-          strokeWidth="5"
-        />
-        <path
-          className="car__line car__line--middle"
-          d="M27.75 34.5H1.600"
-          strokeWidth="5"
-        />
-        <path
-          className="car__line car__line--bottom"
-          d="M35.25 16.5h-28.55"
-          strokeWidth="5"
-        />
+        <path className="car__line car__line--top" d="M33.75 25.5H4.7105" strokeWidth="5" />
+        <path className="car__line car__line--middle" d="M27.75 34.5H1.600" strokeWidth="5" />
+        <path className="car__line car__line--bottom" d="M35.25 16.5h-28.55" strokeWidth="5" />
       </g>
     </svg>
   );

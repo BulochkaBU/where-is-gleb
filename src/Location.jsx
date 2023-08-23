@@ -1,53 +1,44 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { YMaps, Map, GeoObject, Placemark } from "@pbe/react-yandex-maps";
-import {
-  useGetCurrentLocationQuery,
-  useGetLocationByIdQuery,
-} from "./api/apiSlice";
-import {
-  addLocation,
-  addCurrentLocation,
-  addArrayIds,
-} from "./api/locationSlice";
+import { useGetCurrentLocationQuery, useGetLocationByIdQuery } from "./api/apiSlice";
+import { addLocation, addCurrentLocation, addArrayIds } from "./api/locationSlice";
 import Loading from "./Loading";
 
 export default function Location() {
-  const { allLocations, currentLocation, arrayIds } = useSelector(
-    (state) => state.locations
-  );
-  const { data, isLoading: isLoadingCurrentLocation } =
-    useGetCurrentLocationQuery();
-  const [currentId, setCurrentId] = useState(5160);
+  const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
+  const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
+  const [lastId, setLastId] = useState(5160);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
     isSuccess,
     isLoadingLocationById,
   } = useGetLocationByIdQuery({
-    id: arrayIds[currentIndex] || 4900,
+    id: arrayIds[currentIndex] || 5160,
   });
-
   const dispatch = useDispatch();
-
   const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     if (data) {
       dispatch(addCurrentLocation(data[0]));
     }
-    if (currentId % 100 === 0) {
-      dispatch(addArrayIds(currentId));
+  }, [data]);
+
+  useEffect(() => {
+    if (data && lastId % 100 === 0) {
+      dispatch(addArrayIds(lastId));
     }
 
-    if (data && currentId !== 1000) {
+    if (data && lastId !== currentId) {
       const timeoutId = setTimeout(() => {
-        setCurrentId((prev) => prev - 1);
+        setLastId((prev) => prev + 1);
       }, 1);
 
       return () => clearTimeout(timeoutId);
     }
-  }, [data, currentId]);
+  }, [data, lastId]);
 
   useEffect(() => {
     if (dataById) {
@@ -55,7 +46,8 @@ export default function Location() {
       if (arrayIds && currentIndex < arrayIds.length - 1 && isSuccess) {
         setCurrentIndex((prev) => prev + 1);
       }
-      if (currentId === 1000) {
+
+      if (lastId >= currentId && currentId) {
         setShowLoading(false);
       }
     }
@@ -70,7 +62,7 @@ export default function Location() {
       <Map
         defaultState={{
           center: currentLocation[0],
-          zoom: 10,
+          zoom: 8,
         }}
         width="100%"
         height="100vh"
@@ -79,9 +71,9 @@ export default function Location() {
           geometry={currentLocation[0]}
           options={{
             iconLayout: "default#image",
-            iconImageHref: "./icon.png",
-            iconImageSize: [70, 70],
-            iconImageOffset: [-15, -42],
+            iconImageHref: "./marker.png",
+            iconImageSize: [50, 50],
+            iconImageOffset: [-25, -40],
           }}
         />
         <GeoObject
