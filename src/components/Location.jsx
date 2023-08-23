@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { YMaps, Map, GeoObject, Placemark } from "@pbe/react-yandex-maps";
-import { useGetCurrentLocationQuery, useGetLocationByIdQuery } from "./api/apiSlice";
-import { addLocation, addCurrentLocation, addArrayIds } from "./api/locationSlice";
+import { useGetCurrentLocationQuery, useGetLocationByIdQuery } from "../api/apiSlice";
+import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSlice";
 import Loading from "./Loading";
 
 export default function Location() {
