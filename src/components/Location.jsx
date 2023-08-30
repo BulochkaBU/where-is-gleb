@@ -1,74 +1,31 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { YMaps, Map, GeoObject, Placemark } from "@pbe/react-yandex-maps";
-import { useGetCurrentLocationQuery, useGetLocationByIdQuery } from "../api/apiSlice";
-import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSlice";
+
 import Loading from "./Loading";
+import { useLocationData } from "../hooks/useLocationData";
 
 export default function Location() {
-  const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
-  const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
-  const [lastId, setLastId] = useState(5160);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const {
-    data: dataById,
-    isSuccess,
-    isLoadingLocationById,
-  } = useGetLocationByIdQuery({
-    id: arrayIds[currentIndex] || 5160,
-  });
-  const dispatch = useDispatch();
-  const [showLoading, setShowLoading] = useState(true);
+  const { listСoordinates, currentСoordinate, isLoading } = useLocationData();
 
-  useEffect(() => {
-    if (data) {
-      dispatch(addCurrentLocation(data[0]));
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data && lastId % 100 === 0) {
-      dispatch(addArrayIds(lastId));
-    }
-
-    if (data && lastId !== currentId) {
-      const timeoutId = setTimeout(() => {
-        setLastId((prev) => prev + 1);
-      }, 1);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [data, lastId]);
-
-  useEffect(() => {
-    if (dataById) {
-      dispatch(addLocation(dataById[0]));
-      if (arrayIds && currentIndex < arrayIds.length - 1 && isSuccess) {
-        setCurrentIndex((prev) => prev + 1);
-      }
-
-      if (lastId >= currentId && currentId) {
-        setShowLoading(false);
-      }
-    }
-  }, [dataById, currentIndex, arrayIds]);
-
-  if (showLoading || isLoadingCurrentLocation || isLoadingLocationById) {
+  if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <YMaps>
+    <YMaps
+      query={{
+        apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY,
+      }}
+    >
       <Map
         defaultState={{
-          center: currentLocation[0],
+          center: currentСoordinate,
           zoom: 8,
         }}
         width="100%"
         height="100vh"
       >
         <Placemark
-          geometry={currentLocation[0]}
+          geometry={currentСoordinate}
           options={{
             iconLayout: "default#image",
             iconImageHref: "./marker.png",
@@ -79,7 +36,7 @@ export default function Location() {
         <GeoObject
           geometry={{
             type: "LineString",
-            coordinates: allLocations,
+            coordinates: listСoordinates,
           }}
           options={{
             geodesic: true,
