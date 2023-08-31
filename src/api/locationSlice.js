@@ -14,7 +14,11 @@ const locationSlice = createSlice({
       if (state.allLocations.length === 0) {
         state.allLocations.push([action.payload.latitude, action.payload.longitude]);
       }
-      if (state.allLocations.every((location) => location.id !== action.payload.id)) {
+      if (
+        !state.allLocations.some(
+          (location) => location[0] === action.payload.latitude && location[1] === action.payload.longitude
+        )
+      ) {
         state.allLocations.push([action.payload.latitude, action.payload.longitude]);
       }
     },

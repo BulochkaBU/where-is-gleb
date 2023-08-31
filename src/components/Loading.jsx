@@ -11,10 +11,10 @@ export default function Loading() {
       setMessage(phrases[Math.floor(Math.random() * 9)]);
     }
 
-    if (percentage < 100 && percentage !== 99) {
+    if (percentage < 150) {
       const timer = setTimeout(() => {
         setPercentage(percentage + 1);
-      }, 100);
+      }, 300);
 
       return () => clearTimeout(timer);
     }
@@ -24,8 +24,8 @@ export default function Loading() {
     <div className="promo">
       <h1 className="title">🕵️‍♂️ Where is Gleb? </h1>
       <Car />
-      <div className="percentage">{percentage}%</div>
-      <p className="message">{message}</p>
+      <div className="percentage">{percentage >= 99 ? 99 : percentage}%</div>
+      <p className="message fade-message">{message}</p>
       <h5 className="subtitle">Code by Anastasiia Prudinskaia</h5>
     </div>
   );

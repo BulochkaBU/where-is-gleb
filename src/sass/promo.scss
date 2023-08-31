@@ -23,9 +23,27 @@
 .message {
   text-align: center;
   font-size: 1.5rem;
+  animation: fadeMessage 3.05s ease-in-out infinite;
 }
 
 .percentage {
   text-align: center;
   font-size: 2rem;
+}
+
+@keyframes fadeMessage {
+  0% {
+    opacity: 0;
+    transform: translate3d(-40%, 0, 0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(40%, 0, 0);
+  }
 }
