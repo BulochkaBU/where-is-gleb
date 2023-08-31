@@ -6,32 +6,36 @@ import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSli
 export const useLocationData = () => {
   const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
   const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
-  const [lastId, setLastId] = useState(10000);
+  const [lastId, setLastId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
     isSuccess,
     isLoadingLocationById,
   } = useGetLocationByIdQuery({
-    id: arrayIds[currentIndex] || 10000,
+    id: arrayIds[currentIndex] || lastId,
   });
   const dispatch = useDispatch();
   const [showLoading, setShowLoading] = useState(true);
   const [listСoordinates, setListСoordinates] = useState(null);
 
   useEffect(() => {
+    if (currentId) {
+      setLastId(Math.floor(currentId / 1000) * 1000);
+    }
+  }, [currentId]);
+
+  useEffect(() => {
     if (data) {
       dispatch(addCurrentLocation(data[0]));
-      if (lastId % 1000 === 0 && currentId >= lastId && currentId && arrayIds && arrayIds.length != 51) {
+
+      if (lastId % 1000 === 0 && lastId >= 10000 && lastId != null && arrayIds && arrayIds.length != 51) {
         dispatch(addArrayIds(lastId));
       }
-      if (currentId === 0) {
-        setLastId((prev) => prev + 1000);
-      }
 
-      if (lastId <= currentId && arrayIds && arrayIds.length != 51) {
+      if (lastId >= 10000 && arrayIds && arrayIds.length != 51) {
         const timeoutId = setTimeout(() => {
-          setLastId((prev) => prev + 1000);
+          setLastId((prev) => prev - 1000);
         }, 1000);
 
         return () => clearTimeout(timeoutId);
@@ -40,7 +44,7 @@ export const useLocationData = () => {
   }, [data, lastId]);
 
   useEffect(() => {
-    if (dataById && arrayIds && arrayIds.length != 51) {
+    if (dataById && arrayIds && arrayIds.length != 51 && lastId >= 10000) {
       dispatch(addLocation(dataById[0]));
     }
 
@@ -48,7 +52,7 @@ export const useLocationData = () => {
       setCurrentIndex((prev) => prev + 1);
     }
 
-    if ((lastId >= currentId && currentId && allLocations) || (arrayIds && arrayIds.length === 51)) {
+    if ((lastId <= 10000 && lastId != null && allLocations) || (arrayIds && arrayIds.length === 51)) {
       setShowLoading(false);
       setListСoordinates(allLocations);
     }

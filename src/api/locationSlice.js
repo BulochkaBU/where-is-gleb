@@ -4,7 +4,7 @@ const initialState = {
   allLocations: [],
   currentLocation: [],
   arrayIds: [],
-  currentId: 0,
+  currentId: null,
 };
 const locationSlice = createSlice({
   name: "location",
