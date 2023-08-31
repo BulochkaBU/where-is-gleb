@@ -8,7 +8,7 @@ export default function Loading() {
 
   useEffect(() => {
     if (percentage % 10 === 0) {
-      setMessage(phrases[Math.floor(Math.random() * 29)]);
+      setMessage(phrases[Math.floor(Math.random() * 45)]);
     }
 
     if (percentage < 150) {
