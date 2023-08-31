@@ -1,6 +1,6 @@
-.promo {
+.loading {
   display: flex;
-  justify-content: center;
+  margin-top: 2.5rem;
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
@@ -17,10 +17,11 @@
 .subtitle {
   text-align: center;
   color: grey;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
 }
 
 .message {
+  margin: 1rem auto;
   text-align: center;
   font-size: 1.5rem;
   animation: fadeMessage 3.05s ease-in-out infinite;
