@@ -6,7 +6,7 @@ import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSli
 export const useLocationData = () => {
   const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
   const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
-  const [lastId, setLastId] = useState(null);
+  const [lastId, setLastId] = useState(5555);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
@@ -29,7 +29,7 @@ export const useLocationData = () => {
     if (data) {
       dispatch(addCurrentLocation(data[0]));
 
-      if (lastId % 1000 === 0 && lastId >= 10000 && lastId != null && arrayIds && arrayIds.length != 51) {
+      if (lastId % 1000 === 0 && lastId >= 10000 && lastId != 5555 && arrayIds && arrayIds.length != 51) {
         dispatch(addArrayIds(lastId));
       }
 
@@ -52,7 +52,7 @@ export const useLocationData = () => {
       setCurrentIndex((prev) => prev + 1);
     }
 
-    if ((lastId <= 10000 && lastId != null && allLocations) || (arrayIds && arrayIds.length === 51)) {
+    if ((lastId <= 10000 && lastId != 5555 && allLocations) || (arrayIds && arrayIds.length === 51)) {
       setShowLoading(false);
       setListСoordinates(allLocations);
     }
