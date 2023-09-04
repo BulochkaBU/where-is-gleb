@@ -1,6 +1,6 @@
 .loading {
   display: flex;
-  margin-top: 2rem;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   height: 100vh;
@@ -46,5 +46,12 @@
   100% {
     opacity: 0;
     transform: translate3d(40%, 0, 0);
+  }
+}
+
+@media (max-width: 500px) {
+  .loading {
+    justify-content: unset;
+    margin-top: 2rem;
   }
 }

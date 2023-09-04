@@ -29,6 +29,10 @@ export const useLocationData = () => {
     if (data) {
       dispatch(addCurrentLocation(data[0]));
 
+      if (currentId != null) {
+        dispatch(addArrayIds(currentId));
+      }
+
       if (lastId % 1000 === 0 && lastId >= 10000 && lastId != 5555 && arrayIds && arrayIds.length != 51) {
         dispatch(addArrayIds(lastId));
       }
