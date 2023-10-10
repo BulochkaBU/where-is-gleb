@@ -6,7 +6,7 @@ import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSli
 export const useLocationData = () => {
   const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
   const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
-  const [lastId, setLastId] = useState(5555);
+  const [lastId, setLastId] = useState(49000);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
@@ -33,11 +33,11 @@ export const useLocationData = () => {
         dispatch(addArrayIds(currentId));
       }
 
-      if (lastId % 1000 === 0 && lastId >= 40000 && lastId != 5555 && arrayIds && arrayIds.length != 51) {
+      if (lastId % 1000 === 0 && lastId >= 50000 && lastId != 49000 && arrayIds && arrayIds.length != 51) {
         dispatch(addArrayIds(lastId));
       }
 
-      if (lastId >= 40000 && arrayIds && arrayIds.length != 51) {
+      if (lastId >= 50000 && arrayIds && arrayIds.length != 51) {
         const timeoutId = setTimeout(() => {
           setLastId((prev) => prev - 1000);
         }, 1000);
@@ -48,7 +48,7 @@ export const useLocationData = () => {
   }, [data, lastId]);
 
   useEffect(() => {
-    if (dataById && arrayIds && arrayIds.length != 51 && lastId >= 40000 && lastId != 5555) {
+    if (dataById && arrayIds && arrayIds.length != 51 && lastId >= 50000 && lastId != 49000) {
       dispatch(addLocation(dataById[0]));
     }
 
@@ -56,7 +56,7 @@ export const useLocationData = () => {
       setCurrentIndex((prev) => prev + 1);
     }
 
-    if ((lastId <= 40000 && lastId != 5555 && allLocations) || (arrayIds && arrayIds.length === 51)) {
+    if ((lastId <= 50000 && lastId != 49000 && allLocations) || (arrayIds && arrayIds.length === 51)) {
       setShowLoading(false);
       setListСoordinates(allLocations);
     }
