@@ -21,7 +21,7 @@ export const useLocationData = () => {
 
   useEffect(() => {
     if (currentId) {
-      setLastId(Math.floor(currentId / 1000) * 1000);
+      setLastId(Math.floor(currentId / 500) * 1000);
     }
   }, [currentId]);
 
@@ -33,13 +33,13 @@ export const useLocationData = () => {
         dispatch(addArrayIds(currentId));
       }
 
-      if (lastId % 1000 === 0 && lastId >= 50000 && lastId != 49000 && arrayIds && arrayIds.length != 51) {
+      if (lastId % 500 === 0 && lastId >= 50000 && lastId != 49000 && arrayIds && arrayIds.length != 71) {
         dispatch(addArrayIds(lastId));
       }
 
-      if (lastId >= 50000 && arrayIds && arrayIds.length != 51) {
+      if (lastId >= 50000 && arrayIds && arrayIds.length != 71) {
         const timeoutId = setTimeout(() => {
-          setLastId((prev) => prev - 1000);
+          setLastId((prev) => prev - 500);
         }, 1000);
 
         return () => clearTimeout(timeoutId);
@@ -48,7 +48,7 @@ export const useLocationData = () => {
   }, [data, lastId]);
 
   useEffect(() => {
-    if (dataById && arrayIds && arrayIds.length != 51 && lastId >= 50000 && lastId != 49000) {
+    if (dataById && arrayIds && arrayIds.length != 71 && lastId >= 50000 && lastId != 49000) {
       dispatch(addLocation(dataById[0]));
     }
 
@@ -56,7 +56,7 @@ export const useLocationData = () => {
       setCurrentIndex((prev) => prev + 1);
     }
 
-    if ((lastId <= 50000 && lastId != 49000 && allLocations) || (arrayIds && arrayIds.length === 51)) {
+    if ((lastId <= 50000 && lastId != 49000 && allLocations) || (arrayIds && arrayIds.length === 71)) {
       setShowLoading(false);
       setListСoordinates(allLocations);
     }
