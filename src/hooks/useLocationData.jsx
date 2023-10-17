@@ -21,7 +21,7 @@ export const useLocationData = () => {
 
   useEffect(() => {
     if (currentId) {
-      setLastId(Math.floor(currentId / 500) * 1000);
+      setLastId(Math.floor(currentId / 500) * 500);
     }
   }, [currentId]);
 
