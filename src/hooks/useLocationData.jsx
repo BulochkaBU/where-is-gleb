@@ -6,7 +6,7 @@ import { addLocation, addCurrentLocation, addArrayIds } from "../api/locationSli
 export const useLocationData = () => {
   const { allLocations, currentLocation, arrayIds, currentId } = useSelector((state) => state.locations);
   const { data, isLoading: isLoadingCurrentLocation } = useGetCurrentLocationQuery();
-  const [lastId, setLastId] = useState(49000);
+  const [lastId, setLastId] = useState(50000);
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     data: dataById,
@@ -21,7 +21,7 @@ export const useLocationData = () => {
 
   useEffect(() => {
     if (currentId) {
-      setLastId(Math.floor(currentId / 500) * 500);
+      setLastId(Math.floor(currentId / 1000) * 1000);
     }
   }, [currentId]);
 
@@ -33,13 +33,13 @@ export const useLocationData = () => {
         dispatch(addArrayIds(currentId));
       }
 
-      if (lastId % 500 === 0 && lastId >= 50000 && lastId != 49000 && arrayIds && arrayIds.length != 71) {
+      if (lastId % 1000 === 0 && lastId >= 51000 && lastId != 50000 && arrayIds && arrayIds.length != 71) {
         dispatch(addArrayIds(lastId));
       }
 
-      if (lastId >= 50000 && arrayIds && arrayIds.length != 71) {
+      if (lastId >= 51000 && arrayIds && arrayIds.length != 71) {
         const timeoutId = setTimeout(() => {
-          setLastId((prev) => prev - 500);
+          setLastId((prev) => prev - 1000);
         }, 1000);
 
         return () => clearTimeout(timeoutId);
@@ -48,7 +48,7 @@ export const useLocationData = () => {
   }, [data, lastId]);
 
   useEffect(() => {
-    if (dataById && arrayIds && arrayIds.length != 71 && lastId >= 50000 && lastId != 49000) {
+    if (dataById && arrayIds && arrayIds.length != 71 && lastId >= 51000 && lastId != 50000) {
       dispatch(addLocation(dataById[0]));
     }
 
@@ -56,7 +56,7 @@ export const useLocationData = () => {
       setCurrentIndex((prev) => prev + 1);
     }
 
-    if ((lastId <= 50000 && lastId != 49000 && allLocations) || (arrayIds && arrayIds.length === 71)) {
+    if ((lastId <= 51000 && lastId != 50000 && allLocations) || (arrayIds && arrayIds.length === 71)) {
       setShowLoading(false);
       setListСoordinates(allLocations);
     }
