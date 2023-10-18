@@ -48,7 +48,7 @@ export const useLocationData = () => {
   }, [data, lastId]);
 
   useEffect(() => {
-    if (dataById && arrayIds && arrayIds.length != 71 && lastId >= 51000 && lastId != 50000) {
+    if (dataById && arrayIds && arrayIds.length != 71 && lastId >= 51000 && lastId != 50000 && isSuccess) {
       dispatch(addLocation(dataById[0]));
     }
 
